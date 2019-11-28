@@ -1,0 +1,185 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2511
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\froman\fcharset0 Times-Roman;\f1\froman\fcharset0 Times-Italic;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}.}{\leveltext\leveltemplateid1\'02\'00.;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid1}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
+\margl1440\margr1440\vieww22120\viewh13940\viewkind0
+\deftab720
+\pard\pardeftab720\sl280\partightenfactor0
+
+\f0\fs28 \cf2 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 2)Write a query that returns the namefirst and namelast fields of the people table, along with the inducted field from the hof_inducted table. All rows from the people table should be returned, and NULL values for the fields from hof_inducted should be returned when there is no match found.\
+\
+SELECT namelast, namefirst, inducted\
+FROM people AS p\
+LEFT JOIN hof_inducted AS h\
+ON p.playerid = h.playerid\
+\
+3)In 2006, a special Baseball Hall of Fame induction was conducted for players from the negro baseball leagues of the 20th century. In that induction, 17 players were posthumously inducted into the Baseball Hall of Fame. Write a query that returns the first and last names, birth and death dates, and birth countries for these players. Note that the year of induction was 2006, and the value for votedby will be \'93Negro League.\'94\
+\
+SELECT namefirst, namelast, birthyear, deathyear, birthcountry\
+FROM people AS p\
+INNER JOIN\
+hof_inducted AS h\
+ON p.playerid = h.playerid\
+WHERE yearid = 2006 AND votedby =  'Negro League';\
+\
+4)Write a query that returns the yearid, playerid, teamid, and salary fields from the salaries table, along with the category field from the hof_inducted table. Keep only the records that are in both salaries and hof_inducted. Hint: While a field named yearid is found in both tables, don\'92t JOIN by it. You must, however, explicitly name which field to include. \
+\
+SELECT s.yearid, s.playerid, s.teamid, s.salary, category\
+FROM salaries AS s\
+INNER JOIN \
+hof_inducted AS h\
+ON s.playerid = h.playerid;\
+\
+5)Write a query that returns the playerid, yearid, teamid, lgid, and salary fields from the salaries table and the inducted field from the hof_inducted table. Keep all records from both tables.\
+\
+SELECT s.playerid, s.yearid, s.teamid, s.lgid, s.salary, inducted\
+FROM salaries AS s\
+FULL JOIN \
+hof_inducted AS h\
+ON s.playerid = h.playerid;\
+\
+6)There are 2 tables, hof_inducted and hof_not_inducted, indicating successful and unsuccessful inductions into the Baseball Hall of Fame, respectively.\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sl280\partightenfactor0
+\ls1\ilvl0\cf2 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	1.	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Combine these 2 tables by all fields. Keep all records. \
+\ls1\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	2.	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Get a distinct list of all player IDs for players who have been put up for HOF induction.\
+\pard\tx566\pardeftab720\sl280\partightenfactor0
+\cf2 \
+SELECT *\
+FROM hof_inducted\
+FULL JOIN \
+hof_not_inducted\
+USING(playerid);\
+\
+SELECT DISTINCT h1.playerid \
+FROM hof_inducted AS h1\
+INNER JOIN \
+hof_not_inducted AS h2\
+ON h1.playerid = h2.playerid\
+WHERE h1.inducted = 'Y';\
+\
+7) Write a query that returns the last name, first name (see people table), and total recorded salaries for all players found in the salaries table. \
+SELECT namefirst, namelast, SUM(salary) AS Total_sum\
+FROM salaries LEFT OUTER JOIN people\
+ON salaries.playerid = people.playerid\
+GROUP BY namelast, namefirst;\
+\
+\
+8)Write a query that returns all records from the hof_inducted and hof_not_inducted tables that include playerid, yearid, namefirst, and namelast. Hint: Each FROM statement will include a LEFT OUTER JOIN!\
+SELECT h1.playerid, yearid, namefirst, namelast\
+FROM hof_inducted AS h1 LEFT JOIN people AS p\
+ON h1.playerid = p.playerid\
+UNION ALL\
+SELECT h2.playerid, yearid, namefirst, namelast\
+FROM hof_not_inducted AS h2 LEFT JOIN people AS p\
+ON h2.playerid = p.playerid;\
+\
+9)SELECT CONCAT(namelast, ', ', namefirst) AS namefull, yearid, inducted\
+FROM hof_inducted AS h1 LEFT JOIN people AS p\
+ON h1.playerid = p.playerid\
+WHERE yearid  > = 1980\
+UNION ALL\
+SELECT CONCAT(namelast, ', ', namefirst) AS namefull, yearid, inducted\
+FROM hof_not_inducted AS h2 LEFT JOIN people AS p\
+ON h2.playerid = p.playerid\
+WHERE yearid  >= 1980\
+ORDER BY yearid, inducted DESC, namefull;\
+\
+10)Write a query that returns the highest annual salary for each teamid, ranked from high to low, along with the corresponding playerid. Bonus! Return namelast and namefirst in the resulting table. (You can find these in the people table.)\
+\
+WITH max AS\
+(SELECT MAX(salary) AS max_salary, teamid, yearid\
+FROM salaries\
+GROUP BY teamid, yearid)\
+SELECT s.teamid, s.yearid, s.playerid, namefirst, namelast\
+FROM salaries AS s LEFT JOIN people AS p\
+ON s.playerid = p.playerid\
+RIGHT JOIN max AS m\
+ON s.teamid = m.teamid AND s.yearid = m.yearid AND s.salary = m.max_salary\
+ORDER BY m.max_salary DESC;\
+\
+11) Select 
+\f1\i birthyear
+\f0\i0 , 
+\f1\i deathyear
+\f0\i0 , 
+\f1\i namefirst
+\f0\i0 , and 
+\f1\i namelast
+\f0\i0  of all the players born since the birth year of Babe Ruth (
+\f1\i playerid
+\f0\i0  = ruthba01). Sort the results by birth year from low to high.\
+\
+SELECT birthyear, deathyear, namefirst, namelast\
+FROM people\
+WHERE birthyear >= ANY(\
+SELECT birthyear\
+FROM people\
+WHERE playerid = 'ruthba01')\
+ORDER BY birthyear;\
+\
+12) Using the 
+\f1\i people
+\f0\i0  table, write a query that returns 
+\f1\i namefirst
+\f0\i0 , 
+\f1\i namelast
+\f0\i0 , and a field called 
+\f1\i usaborn
+\f0\i0  where. The 
+\f1\i usaborn
+\f0\i0  field should show the following: if the player's 
+\f1\i birthcountry
+\f0\i0  is the USA, then the record is 'USA.' Otherwise, it's 'non-USA.' Order the results by 'non-USA' records first.\
+\
+SELECT namefirst, namelast, \
+CASE WHEN birthcountry = 'USA' THEN 'USA'\
+ELSE 'non-USA' \
+END AS usaborn\
+FROM people\
+ORDER BY usaborn;\
+\
+13) Calculate the average height for players throwing with their right hand versus their left hand. Name these fields 
+\f1\i right_height
+\f0\i0  and 
+\f1\i left_height
+\f0\i0 , respectively. \
+SELECT \
+ 		AVG(CASE WHEN throws = 'R' THEN height END) AS right_height,\
+          AVG(CASE WHEN throws = 'L' THEN height END) AS left_height\
+FROM people;\
+\
+14)Get the average of each team's maximum player salary since 2010. 
+\f1\i Hint:
+\f0\i0  WHERE will go inside your CTE.\
+WITH max_team_sal AS(\
+SELECT teamid, MAX(salary) AS max_sal, yearid\
+FROM salaries\
+GROUP BY teamid, yearid\
+	)\
+SELECT teamid, ROUND(AVG(max_sal),2) AS avg_max_sal\
+FROM max_team_sal\
+WHERE yearid > 2010\
+GROUP BY teamid;\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+}
