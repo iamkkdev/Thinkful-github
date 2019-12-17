@@ -1,0 +1,6 @@
+https://www.kaggle.com/kyanyoga/sample-sales-data
+Sales data from various countries 
+The data is interesting because the data has sales from different countries which we can compare
+I am interested in comparing the sales in USA with sales in other English speaking countries
+We can also compare sales from year 2003, 2004 and 2005
+Sales can also vary quarterly and we can compare and give some suggestions to the bussiness owner on how to improve sales in different quarters
