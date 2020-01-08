@@ -1,6 +1,8 @@
-https://www.kaggle.com/kyanyoga/sample-sales-data
-Sales data from various countries 
-The data is interesting because the data has sales from different countries which we can compare
-I am interested in comparing the sales in USA with sales in other English speaking countries
-We can also compare sales from year 2003, 2004 and 2005
-Sales can also vary quarterly and we can compare and give some suggestions to the bussiness owner on how to improve sales in different quarters
+https://www.kaggle.com/henriqueyamahata/bank-marketing
+The data is related with direct marketing campaigns of a Portuguese banking institution. The marketing campaigns were based on phone calls. Often, more than one contact to the same client was required, in order to access if the product (bank term deposit) would be ('yes') or not ('no') subscribed. 
+I found this data interesting because we can find various ways to improve client subscriptions to a term deposit by analysing different variables of the data.
+I will be researching the number of phone calls variable. 
+How did the number of phone calls effect the term deposit subscriptions. Is it better to convince the customers to subscribe by making more phone calls? or Does the customers feel bad about receiving more calls from the bank
+By dividing the dataset into 2 datasets, first one contains data with campaign calls less than or equal to 5 and the second dataset that has calls more than 5
+Assuming Null Hypothesis that both groups or both datasets(one dataset with less than or equal to 5 calls and other dataset with more than 5 calls) have the same subscription rate at 5% significance
+Some customers may subscribe to term deposit by making more calls to them and some customers may find more calls annoying, here we are going to determine if by calling the customer many times increased their rate of subscriptions or decreased the subscriptions. This research can definitely help the Portugese banking institution and can also give us a general idea for any business dealing with subscriptions. If the subscription rate increased with number of calls then we may continue to call the customers more often and persuade them to subscribe, if the subscription rate goes down with number of calls we could suggest the bank to find other ways to reach out to customers.
