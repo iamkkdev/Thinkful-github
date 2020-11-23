@@ -1,5 +1,3 @@
-install.packages('MASS', 'tidyr', 'tidyverse')
-install.packages('ggplot2')
 
 library(MASS)
 library(ggplot2)
@@ -63,3 +61,15 @@ tidy_pd$TIME
 #Now converting the variable into a numeric variable
 tidy_pd$TIME = as.numeric(tidy_pd$TIME)
 tidy_pd$TIME
+
+#Creating new variable height in metres and BMI
+data_cov$HT_in_m = data_cov$HT/100
+data_cov$BMI = round(data_cov$WT/data_cov$HT_in_m ^ 2,1)
+
+#Creating new variable cbmi and assigning to NA
+attach(data_cov)
+
+if (BMI >25| BMI == 25){
+      print(CBMI = 3)
+}
+
